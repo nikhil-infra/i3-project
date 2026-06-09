@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login / Register — MathBlast</title>
+  <meta name="description" content="Create your MathBlast account or login — powered by AWS Cognito authentication." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/auth.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      Math<span class="logo-blast">Blast</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="game.html">Play</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="stats.html">My Stats</a></li>
+      <li><a href="architecture.html">AWS Cloud</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="auth.html" class="btn btn-secondary btn-sm active" id="loginBtn">Login</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" id="registerBtn">Register</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <main class="page-content">
+    <div class="auth-page">
+
+      <!-- Left Panel -->
+      <div class="auth-left">
+        <div class="auth-brand">
+          <div class="logo-icon" style="width:60px;height:60px;font-size:2rem;">⚡</div>
+          <h1 class="auth-brand-title">MathBlast</h1>
+          <p class="auth-brand-sub">Cloud-powered math challenges</p>
+        </div>
+
+        <div class="auth-perks">
+          <div class="perk-item">
+            <div class="perk-icon">🏆</div>
+            <div>
+              <strong>Global Rankings</strong>
+              <p>Compete with players worldwide on the live leaderboard</p>
+            </div>
+          </div>
+          <div class="perk-item">
+            <div class="perk-icon">📊</div>
+            <div>
+              <strong>Track Your Progress</strong>
+              <p>All your scores saved securely in AWS DynamoDB</p>
+            </div>
+          </div>
+          <div class="perk-item">
+            <div class="perk-icon">🔒</div>
+            <div>
+              <strong>Secured by AWS Cognito</strong>
+              <p>Enterprise-grade authentication — your data is safe</p>
+            </div>
+          </div>
+          <div class="perk-item">
+            <div class="perk-icon">🎯</div>
+            <div>
+              <strong>Unlock Achievements</strong>
+              <p>Earn badges and climb the global rankings</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="aws-auth-badge">
+          <span>🔐</span>
+          Authentication powered by <strong>AWS Cognito</strong>
+        </div>
+      </div>
+
+      <!-- Right Panel - Form -->
+      <div class="auth-right">
+        <div class="auth-card glass-card">
+
+          <!-- Tabs -->
+          <div class="auth-tabs">
+            <button class="auth-tab" id="tabLogin" onclick="switchTab('login')">Login</button>
+            <button class="auth-tab active" id="tabRegister" onclick="switchTab('register')">Register</button>
+            <div class="auth-tab-slider" id="tabSlider"></div>
+          </div>
+
+          <!-- LOGIN FORM -->
+          <form id="loginForm" class="auth-form hidden" onsubmit="handleLogin(event)">
+            <h2 class="auth-form-title">Welcome Back! 👋</h2>
+            <p class="auth-form-sub">Login to access your stats and rankings</p>
+
+            <div class="form-group">
+              <label class="form-label" for="loginEmail">Email Address</label>
+              <input type="email" id="loginEmail" class="form-input" placeholder="you@email.com" required />
+              <span class="form-error">Please enter a valid email</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="loginPassword">Password</label>
+              <div class="input-wrap">
+                <input type="password" id="loginPassword" class="form-input" placeholder="Your password" required />
+                <button type="button" class="toggle-pw" onclick="togglePw('loginPassword', this)">👁</button>
+              </div>
+            </div>
+
+            <div class="auth-options">
+              <label class="checkbox-wrap">
+                <input type="checkbox" id="rememberMe" /> Remember me
+              </label>
+              <a href="#" class="forgot-link">Forgot password?</a>
+            </div>
+
+            <button type="submit" class="btn btn-primary w-full btn-lg" id="loginSubmitBtn" style="margin-top:1rem;">
+              <span id="loginBtnText">Login to MathBlast</span>
+              <span id="loginSpinner" class="spinner hidden"></span>
+            </button>
+
+            <div class="auth-divider"><span>or</span></div>
+            <p class="auth-switch">
+              Don't have an account?
+              <a href="#" onclick="switchTab('register')">Register free →</a>
+            </p>
+          </form>
+
+          <!-- REGISTER FORM -->
+          <form id="registerForm" class="auth-form" onsubmit="handleRegister(event)">
+            <h2 class="auth-form-title">Join MathBlast! 🚀</h2>
+            <p class="auth-form-sub">Create your free account and start competing</p>
+
+            <div class="form-group">
+              <label class="form-label" for="regName">Full Name</label>
+              <input type="text" id="regName" class="form-input" placeholder="Your Name" required minlength="2" />
+              <span class="form-error">Name must be at least 2 characters</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regEmail">Email Address</label>
+              <input type="email" id="regEmail" class="form-input" placeholder="you@email.com" required />
+              <span class="form-error">Please enter a valid email</span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regPassword">Password</label>
+              <div class="input-wrap">
+                <input type="password" id="regPassword" class="form-input" placeholder="Min 8 characters" required minlength="8" />
+                <button type="button" class="toggle-pw" onclick="togglePw('regPassword', this)">👁</button>
+              </div>
+              <div class="pw-strength" id="pwStrength">
+                <div class="pw-strength-fill" id="pwStrengthFill"></div>
+              </div>
+              <span class="pw-strength-label" id="pwStrengthLabel"></span>
+            </div>
+
+            <div class="form-group">
+              <label class="form-label" for="regConfirm">Confirm Password</label>
+              <input type="password" id="regConfirm" class="form-input" placeholder="Repeat password" required />
+              <span class="form-error" id="confirmError">Passwords do not match</span>
+            </div>
+
+            <label class="checkbox-wrap" style="margin-bottom:1rem;">
+              <input type="checkbox" id="agreeTerms" required />
+              I agree to the <a href="#">Terms of Service</a>
+            </label>
+
+            <button type="submit" class="btn btn-primary w-full btn-lg" id="registerSubmitBtn">
+              <span id="regBtnText">🚀 Create Account</span>
+              <span id="regSpinner" class="spinner hidden"></span>
+            </button>
+
+            <div class="auth-divider"><span>or</span></div>
+            <p class="auth-switch">
+              Already have an account?
+              <a href="#" onclick="switchTab('login')">Login →</a>
+            </p>
+          </form>
+
+        </div>
+
+        <!-- Trust indicators -->
+        <div class="auth-trust">
+          <span>🔒 SSL Encrypted</span>
+          <span>☁️ AWS Cloud</span>
+          <span>🆓 Free Forever</span>
+          <span>🌍 Global CDN</span>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

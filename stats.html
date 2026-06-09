@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Stats — MathBlast</title>
+  <meta name="description" content="Track your MathBlast performance — scores, accuracy, streaks, and achievements stored in AWS DynamoDB." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/stats.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">⚡</div>Math<span class="logo-blast">Blast</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="game.html">Play</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="stats.html" class="active">My Stats</a></li>
+      <li><a href="architecture.html">AWS Cloud</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="auth.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" id="registerBtn">Register</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <main class="page-content">
+    <div class="section" style="max-width:1000px;">
+
+      <!-- LOGGED OUT STATE -->
+      <div id="notLoggedIn" style="display:none; text-align:center; padding:5rem 2rem;">
+        <div style="font-size:5rem;margin-bottom:1rem;">🔒</div>
+        <h2 class="section-title">Login to View Your Stats</h2>
+        <p class="section-subtitle" style="margin-bottom:2rem;">Your scores are saved in AWS DynamoDB. Login to access them.</p>
+        <a href="auth.html?tab=login" class="btn btn-primary btn-lg">Login Now</a>
+        <a href="auth.html?tab=register" class="btn btn-secondary btn-lg" style="margin-left:1rem;">Register Free</a>
+      </div>
+
+      <!-- LOGGED IN STATE -->
+      <div id="statsContent">
+        <!-- Profile Card -->
+        <div class="profile-card glass-card">
+          <div class="profile-avatar" id="profileAvatar">🎮</div>
+          <div class="profile-info">
+            <h1 class="profile-name" id="profileName">Player</h1>
+            <p class="profile-email" id="profileEmail">player@email.com</p>
+            <div class="profile-badges" id="profileBadges"></div>
+          </div>
+          <div class="profile-rank">
+            <div class="profile-rank-label">Global Rank</div>
+            <div class="profile-rank-value" id="profileRank">#—</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="Auth.logout()" id="logoutBtn">Logout</button>
+        </div>
+
+        <!-- Key Stats -->
+        <div class="stats-grid" id="statsGrid">
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon">🏆</div>
+            <div class="stat-card-value" id="statBestScore">—</div>
+            <div class="stat-card-label">Best Score</div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon">🎮</div>
+            <div class="stat-card-value" id="statGamesPlayed">—</div>
+            <div class="stat-card-label">Games Played</div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon">🎯</div>
+            <div class="stat-card-value" id="statAccuracy">—</div>
+            <div class="stat-card-label">Avg Accuracy</div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon">🔥</div>
+            <div class="stat-card-value" id="statBestStreak">—</div>
+            <div class="stat-card-label">Best Streak</div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon">✅</div>
+            <div class="stat-card-value" id="statCorrect">—</div>
+            <div class="stat-card-label">Total Correct</div>
+          </div>
+          <div class="stat-card glass-card">
+            <div class="stat-card-icon">⭐</div>
+            <div class="stat-card-value" id="statTotalScore">—</div>
+            <div class="stat-card-label">Total Score</div>
+          </div>
+        </div>
+
+        <!-- Score Chart (simple bars) -->
+        <div class="section-header" style="margin-top:3rem;margin-bottom:1.5rem;">
+          <div class="section-badge">📈 History</div>
+          <h2 class="section-title" style="font-size:1.5rem;">Recent Games</h2>
+        </div>
+
+        <div class="score-chart" id="scoreChart">
+          <!-- Bars rendered by JS -->
+        </div>
+
+        <!-- Achievements -->
+        <div class="section-header" style="margin-top:3rem;margin-bottom:1.5rem;">
+          <div class="section-badge">🏅 Achievements</div>
+          <h2 class="section-title" style="font-size:1.5rem;">Your Badges</h2>
+        </div>
+
+        <div class="achievements-grid" id="achievementsGrid">
+          <!-- Rendered by JS -->
+        </div>
+
+        <!-- Recent Games List -->
+        <div class="section-header" style="margin-top:3rem;margin-bottom:1.5rem;">
+          <div class="section-badge">📋 Activity</div>
+          <h2 class="section-title" style="font-size:1.5rem;">Game History</h2>
+        </div>
+
+        <div class="history-list" id="historyList">
+          <!-- Rendered by JS -->
+        </div>
+
+        <div class="text-center" style="margin-top:2.5rem;">
+          <a href="game.html" class="btn btn-primary btn-lg" id="playMoreBtn">🎮 Play More Games</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Stats stored securely in <strong>AWS DynamoDB</strong></p>
+    <p style="margin-top:0.4rem;">⚡ MathBlast</p>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/stats.js"></script>
+</body>
+</html>

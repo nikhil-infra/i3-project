@@ -1,0 +1,513 @@
+/* =========================================
+   HOME PAGE SPECIFIC STYLES
+   ========================================= */
+
+/* === HERO === */
+.hero-section {
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.hero-bg-glow {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 800px;
+  height: 800px;
+  background: radial-gradient(ellipse, rgba(0,212,255,0.08) 0%, rgba(139,92,246,0.05) 40%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,212,255,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,212,255,0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+  mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+}
+
+.hero-content {
+  position: relative;
+  z-index: 2;
+  text-align: center;
+  max-width: 750px;
+  padding: 2rem;
+}
+
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--cyan);
+  background: var(--cyan-dim);
+  border: 1px solid var(--border-bright);
+  border-radius: 50px;
+  padding: 0.4rem 1.1rem;
+  margin-bottom: 1.5rem;
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.hero-title {
+  font-family: var(--font-game);
+  font-size: clamp(2.8rem, 7vw, 5.5rem);
+  font-weight: 900;
+  line-height: 1.05;
+  margin-bottom: 1.3rem;
+  color: var(--text-primary);
+}
+
+.hero-subtitle {
+  font-size: 1.15rem;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  max-width: 580px;
+  margin: 0 auto 2rem;
+}
+
+.hero-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-bottom: 3rem;
+}
+
+/* === HERO STATS === */
+.hero-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1.5rem 2.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(12px);
+  flex-wrap: wrap;
+  gap: 1.5rem;
+}
+
+.hero-stat {
+  text-align: center;
+}
+
+.stat-number {
+  font-family: var(--font-game);
+  font-size: 1.8rem;
+  font-weight: 700;
+  color: var(--cyan);
+  line-height: 1;
+  margin-bottom: 0.2rem;
+}
+
+.stat-label {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.hero-stat-divider {
+  width: 1px;
+  height: 40px;
+  background: var(--border);
+}
+
+/* === FLOATING MATH SYMBOLS === */
+.hero-floats {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.float-symbol {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  font-family: var(--font-game);
+  font-size: 2.5rem;
+  font-weight: 900;
+  color: rgba(0, 212, 255, 0.06);
+  animation: float 4s var(--delay) ease-in-out infinite;
+  user-select: none;
+}
+
+/* === SCROLL HINT === */
+.hero-scroll-hint {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.72rem;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  animation: fadeIn 2s ease 1s both;
+}
+
+.scroll-arrow {
+  animation: float 1.5s ease-in-out infinite;
+  color: var(--cyan);
+}
+
+/* === GAME MODES === */
+.modes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+}
+
+.mode-card {
+  padding: 2rem;
+  position: relative;
+  text-decoration: none;
+  color: var(--text-primary);
+  overflow: hidden;
+  cursor: pointer;
+}
+
+.mode-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at top left, var(--color), transparent 70%);
+  opacity: 0;
+  transition: var(--transition);
+}
+
+.mode-card:hover::before { opacity: 0.07; }
+
+.mode-card:hover { border-color: var(--color, var(--cyan)); }
+
+.mode-icon {
+  font-size: 2.5rem;
+  margin-bottom: 0.8rem;
+  display: block;
+  filter: drop-shadow(0 0 10px var(--color));
+}
+
+.mode-badge {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 0.68rem;
+}
+
+.mode-title {
+  font-family: var(--font-game);
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+}
+
+.mode-desc {
+  font-size: 0.88rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+  margin-bottom: 1rem;
+}
+
+.mode-meta {
+  display: flex;
+  gap: 0.8rem;
+  flex-wrap: wrap;
+}
+
+.mode-meta span {
+  font-size: 0.75rem;
+  color: var(--text-muted);
+  background: rgba(255,255,255,0.04);
+  padding: 0.2rem 0.6rem;
+  border-radius: 50px;
+  border: 1px solid var(--border);
+}
+
+.mode-arrow {
+  position: absolute;
+  bottom: 1.5rem;
+  right: 1.5rem;
+  font-size: 1.3rem;
+  color: var(--text-muted);
+  transition: var(--transition);
+}
+
+.mode-card:hover .mode-arrow {
+  color: var(--cyan);
+  transform: translateX(4px);
+}
+
+/* === FEATURES === */
+.features-section {
+  background: linear-gradient(180deg, transparent, rgba(139,92,246,0.03) 50%, transparent);
+}
+
+.features-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 2rem;
+}
+
+.feature-item {
+  text-align: center;
+  padding: 1.5rem;
+}
+
+.feature-icon {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+  display: block;
+}
+
+.feature-item h4 {
+  font-family: var(--font-game);
+  font-size: 0.95rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.feature-item p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* === HOW IT WORKS === */
+.steps-row {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.step-card {
+  flex: 1;
+  min-width: 220px;
+  max-width: 280px;
+  padding: 2rem;
+  text-align: center;
+  position: relative;
+}
+
+.step-number {
+  font-family: var(--font-game);
+  font-size: 3rem;
+  font-weight: 900;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 0.5rem;
+}
+
+.step-icon {
+  font-size: 2.2rem;
+  margin-bottom: 0.8rem;
+}
+
+.step-card h4 {
+  font-family: var(--font-game);
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.step-card p {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.step-connector {
+  width: 60px;
+  height: 2px;
+  background: linear-gradient(90deg, var(--cyan), var(--purple));
+  flex-shrink: 0;
+  opacity: 0.4;
+}
+
+/* === AWS MINI === */
+.aws-mini-section {
+  background: linear-gradient(135deg, rgba(0,212,255,0.02), rgba(139,92,246,0.03));
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+
+.aws-mini-content {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 4rem;
+  align-items: center;
+}
+
+.aws-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+  margin-top: 1.5rem;
+}
+
+.aws-service-badge {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  padding: 0.4rem 0.9rem;
+  background: rgba(255,153,0,0.08);
+  border: 1px solid rgba(255,153,0,0.2);
+  border-radius: 50px;
+  color: #ff9900;
+}
+
+.aws-icon { font-size: 1rem; }
+
+/* === AWS DIAGRAM MINI === */
+.aws-diagram-mini {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 2rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  backdrop-filter: blur(12px);
+}
+
+.aws-node {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  min-width: 80px;
+  transition: var(--transition);
+  box-shadow: 0 0 15px var(--glow);
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.aws-node:hover { transform: scale(1.05); }
+
+.aws-node-icon { font-size: 1.8rem; }
+.aws-node-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-align: center;
+  font-family: var(--font-game);
+}
+
+.aws-arrow {
+  font-size: 1.2rem;
+  color: var(--cyan);
+  opacity: 0.6;
+  flex-shrink: 0;
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* === LEADERBOARD PREVIEW === */
+.leaderboard-preview {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.lb-preview-row {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.5rem;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: var(--transition);
+  animation: fadeInUp 0.4s ease both;
+}
+
+.lb-preview-row:hover {
+  border-color: var(--cyan-dim);
+  background: var(--bg-card-hover);
+  transform: translateX(4px);
+}
+
+.lb-rank {
+  font-family: var(--font-game);
+  font-size: 1.1rem;
+  font-weight: 700;
+  min-width: 36px;
+  text-align: center;
+}
+
+.lb-rank.gold { color: var(--yellow); text-shadow: 0 0 10px gold; }
+.lb-rank.silver { color: #c0c0c0; }
+.lb-rank.bronze { color: #cd7f32; }
+
+.lb-avatar {
+  width: 38px; height: 38px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.1rem;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--cyan), var(--purple));
+  flex-shrink: 0;
+}
+
+.lb-name {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+.lb-score {
+  font-family: var(--font-game);
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--cyan);
+}
+
+.lb-mode {
+  font-size: 0.72rem;
+  color: var(--text-muted);
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 900px) {
+  .aws-mini-content {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
+  }
+  .aws-mini-visual { order: -1; }
+}
+
+@media (max-width: 768px) {
+  .hero-title { font-size: 2.5rem; }
+  .hero-stats { flex-direction: column; gap: 1rem; }
+  .hero-stat-divider { width: 60px; height: 1px; }
+  .modes-grid { grid-template-columns: 1fr; }
+  .steps-row { flex-direction: column; }
+  .step-connector { width: 2px; height: 40px; background: linear-gradient(180deg, var(--cyan), var(--purple)); }
+  .aws-diagram-mini { flex-wrap: wrap; }
+}

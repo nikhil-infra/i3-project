@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Leaderboard — MathBlast</title>
+  <meta name="description" content="MathBlast Global Leaderboard — See the top math players worldwide, powered by AWS DynamoDB." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/leaderboard.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      Math<span class="logo-blast">Blast</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="game.html">Play</a></li>
+      <li><a href="leaderboard.html" class="active">Leaderboard</a></li>
+      <li><a href="stats.html">My Stats</a></li>
+      <li><a href="architecture.html">AWS Cloud</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="auth.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" id="registerBtn">Register</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <main class="page-content">
+    <div class="section" style="max-width:900px;">
+
+      <!-- Header -->
+      <div class="section-header">
+        <div class="section-badge">🏆 Live Rankings</div>
+        <h1 class="section-title">Global Leaderboard</h1>
+        <p class="section-subtitle">Updated in real-time from <span style="color:var(--cyan)">AWS DynamoDB</span>. Top players from around the world.</p>
+      </div>
+
+      <!-- AWS Indicator -->
+      <div class="aws-live-badge">
+        <div class="live-dot"></div>
+        <span>Live data from <strong>AWS DynamoDB</strong> — ap-south-1 region</span>
+        <span class="lb-refresh-time" id="lastRefresh">Just updated</span>
+      </div>
+
+      <!-- Filters -->
+      <div class="lb-filters">
+        <div class="lb-filter-group">
+          <span class="lb-filter-label">Mode:</span>
+          <button class="lb-filter-btn active" data-filter="all" id="filterAll">All Modes</button>
+          <button class="lb-filter-btn" data-filter="speed" id="filterSpeed">⚡ Speed</button>
+          <button class="lb-filter-btn" data-filter="survival" id="filterSurvival">❤️ Survival</button>
+          <button class="lb-filter-btn" data-filter="challenge" id="filterChallenge">🏆 Daily</button>
+        </div>
+        <div class="lb-filter-group">
+          <span class="lb-filter-label">Period:</span>
+          <button class="lb-filter-btn active" data-period="week" id="periodWeek">This Week</button>
+          <button class="lb-filter-btn" data-period="month" id="periodMonth">This Month</button>
+          <button class="lb-filter-btn" data-period="all" id="periodAll">All Time</button>
+        </div>
+      </div>
+
+      <!-- Top 3 Podium -->
+      <div class="podium" id="podium">
+        <!-- Rendered by JS -->
+      </div>
+
+      <!-- Full Rankings Table -->
+      <div class="lb-table-wrap">
+        <div class="lb-table-header">
+          <span>Rank</span>
+          <span>Player</span>
+          <span>Score</span>
+          <span>Mode</span>
+          <span>Streak</span>
+          <span>Accuracy</span>
+        </div>
+        <div class="lb-table-body" id="lbTableBody">
+          <!-- Rendered by JS -->
+        </div>
+      </div>
+
+      <!-- Your position -->
+      <div class="your-rank-card glass-card" id="yourRankCard" style="display:none;">
+        <div class="your-rank-label">📍 Your Position</div>
+        <div id="yourRankContent"></div>
+      </div>
+
+      <div class="text-center" style="margin-top:2.5rem;">
+        <a href="game.html" class="btn btn-primary btn-lg" id="climbLbBtn">🚀 Climb the Leaderboard</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>Leaderboard powered by <strong>AWS DynamoDB</strong> · Lambda · API Gateway</p>
+    <p style="margin-top:0.4rem;">⚡ MathBlast — Built on AWS Cloud</p>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/leaderboard.js"></script>
+</body>
+</html>

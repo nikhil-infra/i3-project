@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AWS Architecture — MathBlast</title>
+  <meta name="description" content="MathBlast AWS Cloud Architecture — S3, CloudFront, Cognito, Lambda, API Gateway, DynamoDB on Free Tier." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/architecture.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">⚡</div>Math<span class="logo-blast">Blast</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="game.html">Play</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="stats.html">My Stats</a></li>
+      <li><a href="architecture.html" class="active">AWS Cloud</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="auth.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" id="registerBtn">Register</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <main class="page-content">
+    <div class="section" style="max-width:1100px;">
+
+      <!-- Header -->
+      <div class="section-header">
+        <div class="section-badge">☁️ Cloud Architecture</div>
+        <h1 class="section-title">AWS Cloud Architecture</h1>
+        <p class="section-subtitle">MathBlast is deployed entirely on AWS Free Tier — a serverless, scalable, globally distributed system</p>
+      </div>
+
+      <!-- Architecture Diagram -->
+      <div class="arch-diagram-container glass-card">
+        <div class="arch-diagram-title">
+          <span>📐</span> System Architecture Diagram
+          <span class="badge badge-green">100% Free Tier</span>
+        </div>
+
+        <div class="arch-diagram">
+
+          <!-- User Layer -->
+          <div class="arch-layer">
+            <div class="layer-label">👤 User Layer</div>
+            <div class="arch-nodes-row">
+              <div class="arch-node-box user-node">
+                <div class="arch-node-icon">🌐</div>
+                <div class="arch-node-name">Web Browser</div>
+                <div class="arch-node-sub">Any Device</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-flow-arrow">
+            <div class="arch-arrow-line"></div>
+            <div class="arch-arrow-label">HTTPS Request</div>
+          </div>
+
+          <!-- CDN Layer -->
+          <div class="arch-layer">
+            <div class="layer-label">🌍 Delivery Layer</div>
+            <div class="arch-nodes-row">
+              <div class="arch-node-box cdn-node" onclick="showServiceInfo('cloudfront')">
+                <div class="arch-node-icon">🌐</div>
+                <div class="arch-node-name">CloudFront CDN</div>
+                <div class="arch-node-sub">400+ Edge Locations</div>
+              </div>
+              <div class="arch-node-box s3-node" onclick="showServiceInfo('s3')">
+                <div class="arch-node-icon">🪣</div>
+                <div class="arch-node-name">Amazon S3</div>
+                <div class="arch-node-sub">Static Hosting</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-flow-arrow">
+            <div class="arch-arrow-line"></div>
+            <div class="arch-arrow-label">API Calls</div>
+          </div>
+
+          <!-- Auth & API Layer -->
+          <div class="arch-layer">
+            <div class="layer-label">🔐 Auth & API Layer</div>
+            <div class="arch-nodes-row">
+              <div class="arch-node-box cognito-node" onclick="showServiceInfo('cognito')">
+                <div class="arch-node-icon">🔐</div>
+                <div class="arch-node-name">AWS Cognito</div>
+                <div class="arch-node-sub">User Auth</div>
+              </div>
+              <div class="arch-node-box apigw-node" onclick="showServiceInfo('apigateway')">
+                <div class="arch-node-icon">🔗</div>
+                <div class="arch-node-name">API Gateway</div>
+                <div class="arch-node-sub">REST APIs</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-flow-arrow">
+            <div class="arch-arrow-line"></div>
+            <div class="arch-arrow-label">Trigger</div>
+          </div>
+
+          <!-- Compute Layer -->
+          <div class="arch-layer">
+            <div class="layer-label">⚙️ Compute Layer</div>
+            <div class="arch-nodes-row">
+              <div class="arch-node-box lambda-node" onclick="showServiceInfo('lambda')">
+                <div class="arch-node-icon">λ</div>
+                <div class="arch-node-name">AWS Lambda</div>
+                <div class="arch-node-sub">Serverless Functions</div>
+              </div>
+              <div class="arch-node-box eventbridge-node" onclick="showServiceInfo('eventbridge')">
+                <div class="arch-node-icon">⏰</div>
+                <div class="arch-node-name">EventBridge</div>
+                <div class="arch-node-sub">Daily Challenges</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="arch-flow-arrow">
+            <div class="arch-arrow-line"></div>
+            <div class="arch-arrow-label">Read / Write</div>
+          </div>
+
+          <!-- Data Layer -->
+          <div class="arch-layer">
+            <div class="layer-label">🗄️ Data Layer</div>
+            <div class="arch-nodes-row">
+              <div class="arch-node-box dynamo-node" onclick="showServiceInfo('dynamodb')">
+                <div class="arch-node-icon">🗄️</div>
+                <div class="arch-node-name">DynamoDB</div>
+                <div class="arch-node-sub">Scores & Users</div>
+              </div>
+              <div class="arch-node-box cloudwatch-node" onclick="showServiceInfo('cloudwatch')">
+                <div class="arch-node-icon">📊</div>
+                <div class="arch-node-name">CloudWatch</div>
+                <div class="arch-node-sub">Monitoring</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Click instruction -->
+        <p class="arch-click-hint">👆 Click on any service to learn more</p>
+      </div>
+
+      <!-- Service Info Panel -->
+      <div class="service-info-panel glass-card hidden" id="serviceInfoPanel">
+        <button class="panel-close" onclick="document.getElementById('serviceInfoPanel').classList.add('hidden')">✕</button>
+        <div id="serviceInfoContent"></div>
+      </div>
+
+      <!-- Services Grid -->
+      <div class="section-header" style="margin-top:3rem;margin-bottom:1.5rem;">
+        <div class="section-badge">📦 Services Used</div>
+        <h2 class="section-title" style="font-size:1.8rem;">AWS Services in Detail</h2>
+      </div>
+
+      <div class="services-grid">
+
+        <div class="service-card glass-card">
+          <div class="service-header">
+            <div class="service-icon s3-color">🪣</div>
+            <div>
+              <div class="service-name">Amazon S3</div>
+              <div class="badge badge-green">Free: 5GB</div>
+            </div>
+          </div>
+          <p class="service-desc">Hosts all frontend files (HTML, CSS, JS). Configured for static website hosting with public read access. Objects stored in <code>ap-south-1</code> region.</p>
+          <div class="service-details">
+            <div class="service-detail"><span>📦 Storage</span> 5 GB Free Tier</div>
+            <div class="service-detail"><span>📤 Requests</span> 20,000 GET/month free</div>
+            <div class="service-detail"><span>🌐 Endpoint</span> bucket.s3.amazonaws.com</div>
+          </div>
+        </div>
+
+        <div class="service-card glass-card">
+          <div class="service-header">
+            <div class="service-icon cdn-color">🌐</div>
+            <div>
+              <div class="service-name">CloudFront CDN</div>
+              <div class="badge badge-cyan">Free: 1TB/month</div>
+            </div>
+          </div>
+          <p class="service-desc">Distributes content globally via 400+ edge locations. Reduces latency for players worldwide. HTTPS enabled via ACM certificate.</p>
+          <div class="service-details">
+            <div class="service-detail"><span>🚀 Transfer</span> 1 TB/month free</div>
+            <div class="service-detail"><span>📍 Locations</span> 400+ Edge Nodes</div>
+            <div class="service-detail"><span>🔒 HTTPS</span> Free via ACM</div>
+          </div>
+        </div>
+
+        <div class="service-card glass-card">
+          <div class="service-header">
+            <div class="service-icon cognito-color">🔐</div>
+            <div>
+              <div class="service-name">AWS Cognito</div>
+              <div class="badge badge-purple">Free: 50K users</div>
+            </div>
+          </div>
+          <p class="service-desc">Handles user registration, login, password management. JWT tokens used for secure API authorization. User Pool configured for email/password auth.</p>
+          <div class="service-details">
+            <div class="service-detail"><span>👥 MAU</span> 50,000 free</div>
+            <div class="service-detail"><span>🔑 Auth</span> JWT Tokens</div>
+            <div class="service-detail"><span>🔒 Security</span> MFA Ready</div>
+          </div>
+        </div>
+
+        <div class="service-card glass-card">
+          <div class="service-header">
+            <div class="service-icon lambda-color">λ</div>
+            <div>
+              <div class="service-name">AWS Lambda</div>
+              <div class="badge badge-orange">Free: 1M req/month</div>
+            </div>
+          </div>
+          <p class="service-desc">Serverless functions for score submission, leaderboard retrieval, and daily challenge generation. Triggered by API Gateway calls. Node.js runtime.</p>
+          <div class="service-details">
+            <div class="service-detail"><span>⚡ Requests</span> 1M/month free</div>
+            <div class="service-detail"><span>🖥 Runtime</span> Node.js 18.x</div>
+            <div class="service-detail"><span>⏱ Timeout</span> 3 seconds</div>
+          </div>
+        </div>
+
+        <div class="service-card glass-card">
+          <div class="service-header">
+            <div class="service-icon apigw-color">🔗</div>
+            <div>
+              <div class="service-name">API Gateway</div>
+              <div class="badge badge-cyan">Free: 1M calls/month</div>
+            </div>
+          </div>
+          <p class="service-desc">REST API with endpoints: <code>POST /scores</code>, <code>GET /leaderboard</code>, <code>GET /user/{id}</code>. CORS enabled. Integrated with Cognito for auth.</p>
+          <div class="service-details">
+            <div class="service-detail"><span>🔗 Calls</span> 1M/month free</div>
+            <div class="service-detail"><span>🌐 Type</span> REST API</div>
+            <div class="service-detail"><span>🔒 Auth</span> Cognito Authorizer</div>
+          </div>
+        </div>
+
+        <div class="service-card glass-card">
+          <div class="service-header">
+            <div class="service-icon dynamo-color">🗄️</div>
+            <div>
+              <div class="service-name">Amazon DynamoDB</div>
+              <div class="badge badge-green">Free: 25GB</div>
+            </div>
+          </div>
+          <p class="service-desc">NoSQL database storing user profiles and game scores. Table: <code>MathBlastScores</code> with <code>userId</code> as partition key and <code>timestamp</code> as sort key.</p>
+          <div class="service-details">
+            <div class="service-detail"><span>🗄️ Storage</span> 25 GB free</div>
+            <div class="service-detail"><span>📖 Reads</span> 25 RCU free</div>
+            <div class="service-detail"><span>✍️ Writes</span> 25 WCU free</div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Data Flow Section -->
+      <div class="section-header" style="margin-top:3rem;margin-bottom:1.5rem;">
+        <div class="section-badge">🔄 Data Flow</div>
+        <h2 class="section-title" style="font-size:1.8rem;">How It All Works</h2>
+      </div>
+
+      <div class="flows-grid">
+        <div class="flow-card glass-card">
+          <div class="flow-title">🎮 Gameplay Flow</div>
+          <div class="flow-steps">
+            <div class="flow-step"><span class="flow-num">1</span> Player loads game via CloudFront CDN</div>
+            <div class="flow-step"><span class="flow-num">2</span> S3 serves HTML/CSS/JS files</div>
+            <div class="flow-step"><span class="flow-num">3</span> JavaScript generates math questions locally</div>
+            <div class="flow-step"><span class="flow-num">4</span> Player answers questions, score computed</div>
+            <div class="flow-step"><span class="flow-num">5</span> Score POSTed to API Gateway endpoint</div>
+            <div class="flow-step"><span class="flow-num">6</span> Lambda writes score to DynamoDB table</div>
+          </div>
+        </div>
+
+        <div class="flow-card glass-card">
+          <div class="flow-title">🏆 Leaderboard Flow</div>
+          <div class="flow-steps">
+            <div class="flow-step"><span class="flow-num">1</span> Player opens Leaderboard page</div>
+            <div class="flow-step"><span class="flow-num">2</span> JavaScript calls GET /leaderboard API</div>
+            <div class="flow-step"><span class="flow-num">3</span> API Gateway triggers Lambda function</div>
+            <div class="flow-step"><span class="flow-num">4</span> Lambda queries DynamoDB (Global Secondary Index)</div>
+            <div class="flow-step"><span class="flow-num">5</span> Top 100 scores returned as JSON</div>
+            <div class="flow-step"><span class="flow-num">6</span> Browser renders animated leaderboard</div>
+          </div>
+        </div>
+
+        <div class="flow-card glass-card">
+          <div class="flow-title">🔐 Auth Flow</div>
+          <div class="flow-steps">
+            <div class="flow-step"><span class="flow-num">1</span> User submits register/login form</div>
+            <div class="flow-step"><span class="flow-num">2</span> Cognito SDK called from browser</div>
+            <div class="flow-step"><span class="flow-num">3</span> Cognito validates credentials</div>
+            <div class="flow-step"><span class="flow-num">4</span> JWT Access + ID Tokens returned</div>
+            <div class="flow-step"><span class="flow-num">5</span> Token stored in localStorage</div>
+            <div class="flow-step"><span class="flow-num">6</span> Token sent in Authorization header for all API calls</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cost Summary -->
+      <div class="cost-card glass-card" style="margin-top:3rem;">
+        <div class="cost-title">💰 AWS Free Tier Cost Breakdown</div>
+        <div class="cost-table">
+          <div class="cost-row cost-header">
+            <span>Service</span><span>Free Tier Limit</span><span>This Project Usage</span><span>Cost</span>
+          </div>
+          <div class="cost-row"><span>🪣 S3</span><span>5 GB storage</span><span>~50 MB</span><span class="cost-free">FREE</span></div>
+          <div class="cost-row"><span>🌐 CloudFront</span><span>1 TB/month</span><span>~500 MB</span><span class="cost-free">FREE</span></div>
+          <div class="cost-row"><span>🔐 Cognito</span><span>50,000 MAU</span><span>< 100 users</span><span class="cost-free">FREE</span></div>
+          <div class="cost-row"><span>λ Lambda</span><span>1M req/month</span><span>< 10,000</span><span class="cost-free">FREE</span></div>
+          <div class="cost-row"><span>🔗 API Gateway</span><span>1M calls/month</span><span>< 10,000</span><span class="cost-free">FREE</span></div>
+          <div class="cost-row"><span>🗄️ DynamoDB</span><span>25 GB, 25 RCU/WCU</span><span>< 1 GB</span><span class="cost-free">FREE</span></div>
+          <div class="cost-row cost-total"><span>Total Monthly Cost</span><span></span><span></span><span class="cost-free">$0.00</span></div>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top:3rem;">
+        <a href="game.html" class="btn btn-primary btn-lg">🎮 Try the App</a>
+        <a href="leaderboard.html" class="btn btn-secondary btn-lg" style="margin-left:1rem;">🏆 Leaderboard</a>
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>⚡ <strong>MathBlast</strong> — Deployed on AWS Cloud · 100% Free Tier</p>
+    <p style="margin-top:0.4rem;">Built as a Mini Project showcasing real-world cloud architecture</p>
+  </footer>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/architecture.js"></script>
+</body>
+</html>

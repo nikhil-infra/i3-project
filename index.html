@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MathBlast — Cloud-Powered Math Game on AWS</title>
+  <meta name="description" content="Challenge your brain with MathBlast — a real-time math quiz game powered by AWS Cloud. Compete globally, climb the leaderboard, and master math at lightning speed." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/home.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      Math<span class="logo-blast">Blast</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html" class="active">Home</a></li>
+      <li><a href="game.html">Play</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="stats.html">My Stats</a></li>
+      <li><a href="architecture.html">AWS Cloud</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="auth.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" id="registerBtn">Register</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <main class="page-content">
+
+    <!-- ========================
+         HERO SECTION
+         ======================== -->
+    <section class="hero-section">
+      <div class="hero-bg-glow"></div>
+      <div class="hero-grid"></div>
+
+      <div class="hero-content">
+        <div class="hero-badge animate-fadeInUp">
+          <span>⚡</span> Powered by AWS Cloud
+        </div>
+
+        <h1 class="hero-title animate-fadeInUp delay-1">
+          Master Math.<br />
+          <span class="gradient-text">Beat The World.</span>
+        </h1>
+
+        <p class="hero-subtitle animate-fadeInUp delay-2">
+          The ultimate real-time math challenge. Compete globally, climb the leaderboard, 
+          and prove you're the fastest calculator on the planet — all powered by AWS Cloud.
+        </p>
+
+        <div class="hero-actions animate-fadeInUp delay-3">
+          <a href="game.html" class="btn btn-primary btn-lg" id="playNowBtn">
+            <span>🎮</span> Play Now — It's Free
+          </a>
+          <a href="leaderboard.html" class="btn btn-secondary btn-lg" id="viewLeaderboardBtn">
+            <span>🏆</span> View Leaderboard
+          </a>
+        </div>
+
+        <div class="hero-stats animate-fadeInUp delay-4">
+          <div class="hero-stat">
+            <div class="stat-number" data-target="12489">0</div>
+            <div class="stat-label">Players Worldwide</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="stat-number" data-target="384729">0</div>
+            <div class="stat-label">Questions Answered</div>
+          </div>
+          <div class="hero-stat-divider"></div>
+          <div class="hero-stat">
+            <div class="stat-number" data-target="98">0</div>
+            <div class="stat-label">% Uptime on AWS</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Floating Math Symbols -->
+      <div class="hero-floats">
+        <div class="float-symbol" style="--delay:0s; --x:10%; --y:20%">+</div>
+        <div class="float-symbol" style="--delay:0.5s; --x:85%; --y:15%">×</div>
+        <div class="float-symbol" style="--delay:1s; --x:75%; --y:70%">÷</div>
+        <div class="float-symbol" style="--delay:1.5s; --x:15%; --y:75%">−</div>
+        <div class="float-symbol" style="--delay:0.8s; --x:50%; --y:10%">=</div>
+        <div class="float-symbol" style="--delay:0.3s; --x:90%; --y:50%">∑</div>
+      </div>
+
+      <div class="hero-scroll-hint">
+        <span>Scroll to explore</span>
+        <div class="scroll-arrow">↓</div>
+      </div>
+    </section>
+
+    <!-- ========================
+         GAME MODES SECTION
+         ======================== -->
+    <section class="section" id="modes">
+      <div class="section-header">
+        <div class="section-badge">🎮 Game Modes</div>
+        <h2 class="section-title">Choose Your Challenge</h2>
+        <p class="section-subtitle">Four thrilling game modes to test your math skills at every level</p>
+      </div>
+
+      <div class="modes-grid">
+        <a href="game.html?mode=speed" class="mode-card glass-card" id="speedModeCard">
+          <div class="mode-icon" style="--color: var(--cyan)">⚡</div>
+          <div class="mode-badge badge badge-cyan">Most Popular</div>
+          <h3 class="mode-title">Speed Round</h3>
+          <p class="mode-desc">Answer as many questions as possible in 60 seconds. Pure speed, pure adrenaline.</p>
+          <div class="mode-meta">
+            <span>⏱ 60 seconds</span>
+            <span>🎯 All operations</span>
+          </div>
+          <div class="mode-arrow">→</div>
+        </a>
+
+        <a href="game.html?mode=survival" class="mode-card glass-card" id="survivalModeCard">
+          <div class="mode-icon" style="--color: var(--pink)">❤️</div>
+          <div class="mode-badge badge badge-pink">Most Intense</div>
+          <h3 class="mode-title">Survival Mode</h3>
+          <p class="mode-desc">3 lives only. One wrong answer costs you. How long can you survive?</p>
+          <div class="mode-meta">
+            <span>❤️ 3 lives</span>
+            <span>📈 Increasing difficulty</span>
+          </div>
+          <div class="mode-arrow">→</div>
+        </a>
+
+        <a href="game.html?mode=challenge" class="mode-card glass-card" id="challengeModeCard">
+          <div class="mode-icon" style="--color: var(--purple)">🏆</div>
+          <div class="mode-badge badge badge-purple">Competitive</div>
+          <h3 class="mode-title">Daily Challenge</h3>
+          <p class="mode-desc">A new set of 20 questions every day. Compete globally for today's #1 spot.</p>
+          <div class="mode-meta">
+            <span>📅 Daily reset</span>
+            <span>🌍 Global rank</span>
+          </div>
+          <div class="mode-arrow">→</div>
+        </a>
+
+        <a href="game.html?mode=practice" class="mode-card glass-card" id="practiceModeCard">
+          <div class="mode-icon" style="--color: var(--green)">📚</div>
+          <div class="mode-badge badge badge-green">Beginner Friendly</div>
+          <h3 class="mode-title">Practice Mode</h3>
+          <p class="mode-desc">No timer, no pressure. Practice at your own pace and learn at your speed.</p>
+          <div class="mode-meta">
+            <span>♾ Unlimited time</span>
+            <span>💡 Hints available</span>
+          </div>
+          <div class="mode-arrow">→</div>
+        </a>
+      </div>
+    </section>
+
+    <!-- ========================
+         FEATURES SECTION
+         ======================== -->
+    <section class="features-section">
+      <div class="section">
+        <div class="section-header">
+          <div class="section-badge">✨ Features</div>
+          <h2 class="section-title">Why MathBlast?</h2>
+          <p class="section-subtitle">Built on AWS Cloud for real-time performance, global reach, and zero downtime</p>
+        </div>
+
+        <div class="features-grid">
+          <div class="feature-item animate-fadeInUp delay-1">
+            <div class="feature-icon">🌍</div>
+            <h4>Global Leaderboard</h4>
+            <p>Compete with players worldwide. Scores stored in AWS DynamoDB — real-time updates.</p>
+          </div>
+          <div class="feature-item animate-fadeInUp delay-2">
+            <div class="feature-icon">⚡</div>
+            <h4>Lightning Fast</h4>
+            <p>Delivered via AWS CloudFront CDN with servers in 400+ locations globally.</p>
+          </div>
+          <div class="feature-item animate-fadeInUp delay-3">
+            <div class="feature-icon">🔒</div>
+            <h4>Secure Login</h4>
+            <p>AWS Cognito handles your authentication — enterprise-grade security.</p>
+          </div>
+          <div class="feature-item animate-fadeInUp delay-4">
+            <div class="feature-icon">📊</div>
+            <h4>Personal Stats</h4>
+            <p>Track your improvement over time. Every game saved to your cloud profile.</p>
+          </div>
+          <div class="feature-item animate-fadeInUp delay-5">
+            <div class="feature-icon">🎯</div>
+            <h4>Combo Streaks</h4>
+            <p>Answer consecutively to multiply your score. Streaks tracked in real-time.</p>
+          </div>
+          <div class="feature-item animate-fadeInUp delay-6">
+            <div class="feature-icon">🏅</div>
+            <h4>Achievements</h4>
+            <p>Unlock badges and achievements. Progress stored securely in the cloud.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================
+         HOW IT WORKS SECTION
+         ======================== -->
+    <section class="section" id="how-it-works">
+      <div class="section-header">
+        <div class="section-badge">🚀 Get Started</div>
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-subtitle">Up and running in 3 simple steps</p>
+      </div>
+
+      <div class="steps-row">
+        <div class="step-card glass-card">
+          <div class="step-number">01</div>
+          <div class="step-icon">👤</div>
+          <h4>Create Account</h4>
+          <p>Register with your name and email. Secured by AWS Cognito — no spam ever.</p>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-card glass-card">
+          <div class="step-number">02</div>
+          <div class="step-icon">🎮</div>
+          <h4>Pick a Mode</h4>
+          <p>Choose Speed Round, Survival, Daily Challenge, or Practice mode.</p>
+        </div>
+        <div class="step-connector"></div>
+        <div class="step-card glass-card">
+          <div class="step-number">03</div>
+          <div class="step-icon">🏆</div>
+          <h4>Compete & Win</h4>
+          <p>Your score uploads to AWS DynamoDB. Climb the global leaderboard instantly.</p>
+        </div>
+      </div>
+
+      <div class="text-center" style="margin-top: 3rem;">
+        <a href="auth.html?tab=register" class="btn btn-primary btn-lg" id="getStartedBtn">
+          🚀 Get Started Free
+        </a>
+      </div>
+    </section>
+
+    <!-- ========================
+         AWS SECTION (MINI)
+         ======================== -->
+    <section class="aws-mini-section">
+      <div class="section">
+        <div class="aws-mini-content">
+          <div class="aws-mini-text">
+            <div class="section-badge" style="justify-content: flex-start;">☁️ AWS Powered</div>
+            <h2 class="section-title" style="text-align:left;">Real Cloud.<br/>Real Performance.</h2>
+            <p class="section-subtitle" style="text-align:left; max-width:100%;">
+              MathBlast is deployed entirely on AWS Free Tier services — 
+              S3, CloudFront, Cognito, Lambda, API Gateway, and DynamoDB working together in harmony.
+            </p>
+            <div class="aws-badges">
+              <div class="aws-service-badge">
+                <span class="aws-icon">🪣</span> Amazon S3
+              </div>
+              <div class="aws-service-badge">
+                <span class="aws-icon">🌐</span> CloudFront
+              </div>
+              <div class="aws-service-badge">
+                <span class="aws-icon">🔐</span> Cognito
+              </div>
+              <div class="aws-service-badge">
+                <span class="aws-icon">λ</span> Lambda
+              </div>
+              <div class="aws-service-badge">
+                <span class="aws-icon">🗄️</span> DynamoDB
+              </div>
+              <div class="aws-service-badge">
+                <span class="aws-icon">🔗</span> API Gateway
+              </div>
+            </div>
+            <a href="architecture.html" class="btn btn-secondary" id="viewArchBtn" style="margin-top:1.5rem;">
+              📐 View Full Architecture
+            </a>
+          </div>
+          <div class="aws-mini-visual">
+            <div class="aws-diagram-mini">
+              <div class="aws-node" style="--glow: var(--cyan-glow)">
+                <div class="aws-node-icon">🌐</div>
+                <div class="aws-node-label">Browser</div>
+              </div>
+              <div class="aws-arrow">→</div>
+              <div class="aws-node" style="--glow: var(--purple-glow)">
+                <div class="aws-node-icon">🪣</div>
+                <div class="aws-node-label">S3 + CDN</div>
+              </div>
+              <div class="aws-arrow">→</div>
+              <div class="aws-node" style="--glow: var(--green-glow)">
+                <div class="aws-node-icon">λ</div>
+                <div class="aws-node-label">Lambda</div>
+              </div>
+              <div class="aws-arrow">→</div>
+              <div class="aws-node" style="--glow: var(--orange-dim)">
+                <div class="aws-node-icon">🗄️</div>
+                <div class="aws-node-label">DynamoDB</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================
+         TOP PLAYERS PREVIEW
+         ======================== -->
+    <section class="section" id="top-players">
+      <div class="section-header">
+        <div class="section-badge">🏆 Leaderboard</div>
+        <h2 class="section-title">Top Players This Week</h2>
+        <p class="section-subtitle">Live scores from AWS DynamoDB</p>
+      </div>
+
+      <div class="leaderboard-preview" id="leaderboardPreview">
+        <!-- Populated by JS -->
+      </div>
+
+      <div class="text-center" style="margin-top:2rem;">
+        <a href="leaderboard.html" class="btn btn-secondary" id="fullLeaderboardBtn">View Full Leaderboard →</a>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div style="margin-bottom:0.5rem;">
+      <strong style="color:var(--cyan); font-family:var(--font-game)">⚡ MathBlast</strong>
+    </div>
+    <p>Built on <strong>AWS Cloud</strong> — S3 · CloudFront · Cognito · Lambda · DynamoDB · API Gateway</p>
+    <p style="margin-top:0.4rem;">A Mini Project by <a href="#">Your Name</a> | © 2025</p>
+  </footer>
+
+  <!-- Toast Container -->
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>

@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Play — MathBlast</title>
+  <meta name="description" content="Play MathBlast - choose your mode, answer math questions, and compete for the top spot on the global leaderboard." />
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/game.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Navbar -->
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo">
+      <div class="logo-icon">⚡</div>
+      Math<span class="logo-blast">Blast</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="game.html" class="active">Play</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="stats.html">My Stats</a></li>
+      <li><a href="architecture.html">AWS Cloud</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="auth.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" id="registerBtn">Register</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+      <span></span><span></span><span></span>
+    </div>
+  </nav>
+
+  <main class="page-content">
+
+    <!-- ========================
+         MODE SELECTOR SCREEN
+         ======================== -->
+    <div id="modeScreen" class="game-screen">
+      <div class="game-screen-inner">
+        <div class="section-header">
+          <div class="section-badge">🎮 Game Mode</div>
+          <h1 class="section-title">Choose Your Mode</h1>
+          <p class="section-subtitle">Pick a mode and set your difficulty</p>
+        </div>
+
+        <!-- Mode Cards -->
+        <div class="mode-selector-grid">
+          <div class="mode-sel-card" data-mode="speed" id="modeSpeed">
+            <div class="mode-sel-icon">⚡</div>
+            <h3>Speed Round</h3>
+            <p>60 seconds. Max answers. Max score.</p>
+            <div class="mode-sel-glow"></div>
+          </div>
+          <div class="mode-sel-card" data-mode="survival" id="modeSurvival">
+            <div class="mode-sel-icon">❤️</div>
+            <h3>Survival</h3>
+            <p>3 lives. Wrong answer = lose a life.</p>
+            <div class="mode-sel-glow"></div>
+          </div>
+          <div class="mode-sel-card" data-mode="challenge" id="modeChallenge">
+            <div class="mode-sel-icon">🏆</div>
+            <h3>Daily Challenge</h3>
+            <p>20 questions. Daily global rank.</p>
+            <div class="mode-sel-glow"></div>
+          </div>
+          <div class="mode-sel-card" data-mode="practice" id="modePractice">
+            <div class="mode-sel-icon">📚</div>
+            <h3>Practice</h3>
+            <p>No timer. Learn at your pace.</p>
+            <div class="mode-sel-glow"></div>
+          </div>
+        </div>
+
+        <!-- Difficulty -->
+        <div class="difficulty-selector" id="difficultySelector">
+          <h4>Difficulty</h4>
+          <div class="diff-buttons">
+            <button class="diff-btn active" data-diff="easy" id="diffEasy">😊 Easy</button>
+            <button class="diff-btn" data-diff="medium" id="diffMedium">😤 Medium</button>
+            <button class="diff-btn" data-diff="hard" id="diffHard">😈 Hard</button>
+            <button class="diff-btn" data-diff="expert" id="diffExpert">💀 Expert</button>
+          </div>
+        </div>
+
+        <!-- Operations -->
+        <div class="ops-selector">
+          <h4>Operations</h4>
+          <div class="ops-buttons">
+            <button class="ops-btn active" data-op="add" id="opAdd">+ Addition</button>
+            <button class="ops-btn active" data-op="sub" id="opSub">− Subtraction</button>
+            <button class="ops-btn active" data-op="mul" id="opMul">× Multiplication</button>
+            <button class="ops-btn" data-op="div" id="opDiv">÷ Division</button>
+          </div>
+        </div>
+
+        <button class="btn btn-primary btn-lg w-full" id="startGameBtn" style="max-width:360px; margin:0 auto;">
+          🚀 Start Game
+        </button>
+      </div>
+    </div>
+
+    <!-- ========================
+         COUNTDOWN SCREEN
+         ======================== -->
+    <div id="countdownScreen" class="game-screen hidden">
+      <div class="countdown-display">
+        <div class="countdown-number" id="countdownNumber">3</div>
+        <div class="countdown-label">Get Ready!</div>
+      </div>
+    </div>
+
+    <!-- ========================
+         GAME SCREEN
+         ======================== -->
+    <div id="gameScreen" class="game-screen hidden">
+      <div class="game-layout">
+
+        <!-- Top HUD -->
+        <div class="game-hud">
+          <div class="hud-item" id="hudScore">
+            <div class="hud-label">Score</div>
+            <div class="hud-value" id="scoreDisplay">0</div>
+          </div>
+
+          <div class="hud-center">
+            <div class="hud-mode-label" id="hudModeLabel">Speed Round</div>
+            <div class="timer-ring-wrap">
+              <svg class="timer-svg" viewBox="0 0 100 100" id="timerSvg">
+                <circle cx="50" cy="50" r="44" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="8"/>
+                <circle cx="50" cy="50" r="44" fill="none" stroke="url(#timerGrad)" stroke-width="8"
+                  stroke-dasharray="276.5" stroke-dashoffset="0" stroke-linecap="round"
+                  transform="rotate(-90 50 50)" id="timerCircle"/>
+                <defs>
+                  <linearGradient id="timerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#00d4ff"/>
+                    <stop offset="100%" stop-color="#8b5cf6"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+              <div class="timer-text">
+                <span id="timerDisplay">60</span>
+                <small>sec</small>
+              </div>
+            </div>
+          </div>
+
+          <div class="hud-right">
+            <div class="hud-item">
+              <div class="hud-label">Streak</div>
+              <div class="hud-value streak-val" id="streakDisplay">🔥 0</div>
+            </div>
+            <div class="hud-item" id="livesHud" style="display:none;">
+              <div class="hud-label">Lives</div>
+              <div class="hud-value" id="livesDisplay">❤️❤️❤️</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="progress-bar" id="questionProgress" style="margin: 0 2rem;">
+          <div class="progress-fill" id="progressFill" style="width:0%"></div>
+        </div>
+
+        <!-- Question Display -->
+        <div class="question-area" id="questionArea">
+          <div class="question-number" id="questionNumber">Question 1</div>
+          <div class="question-equation" id="questionEquation">
+            <span class="eq-num" id="num1">12</span>
+            <span class="eq-op" id="opSign">+</span>
+            <span class="eq-num" id="num2">7</span>
+            <span class="eq-eq">=</span>
+            <span class="eq-answer">?</span>
+          </div>
+        </div>
+
+        <!-- Answer Options -->
+        <div class="answer-grid" id="answerGrid">
+          <button class="answer-btn" id="ans0" data-index="0"></button>
+          <button class="answer-btn" id="ans1" data-index="1"></button>
+          <button class="answer-btn" id="ans2" data-index="2"></button>
+          <button class="answer-btn" id="ans3" data-index="3"></button>
+        </div>
+
+        <!-- Hint Button -->
+        <div class="game-bottom" id="gameBottom">
+          <button class="btn btn-secondary btn-sm" id="hintBtn">💡 Use Hint (-50pts)</button>
+          <button class="btn btn-secondary btn-sm" id="quitGameBtn">✕ Quit</button>
+        </div>
+
+        <!-- Feedback Popup -->
+        <div class="feedback-popup hidden" id="feedbackPopup"></div>
+
+        <!-- Combo Banner -->
+        <div class="combo-banner hidden" id="comboBanner">
+          🔥 <span id="comboText">3x Combo!</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========================
+         RESULT SCREEN
+         ======================== -->
+    <div id="resultScreen" class="game-screen hidden">
+      <div class="result-inner">
+        <div class="result-emoji" id="resultEmoji">🏆</div>
+        <h1 class="result-title" id="resultTitle">Amazing!</h1>
+        <p class="result-subtitle" id="resultSubtitle">You crushed it!</p>
+
+        <div class="result-score-card">
+          <div class="result-score-label">Final Score</div>
+          <div class="result-score-number" id="finalScore">0</div>
+        </div>
+
+        <div class="result-stats-grid">
+          <div class="result-stat">
+            <div class="rs-value" id="rsCorrect">0</div>
+            <div class="rs-label">✅ Correct</div>
+          </div>
+          <div class="result-stat">
+            <div class="rs-value" id="rsWrong">0</div>
+            <div class="rs-label">❌ Wrong</div>
+          </div>
+          <div class="result-stat">
+            <div class="rs-value" id="rsStreak">0</div>
+            <div class="rs-label">🔥 Best Streak</div>
+          </div>
+          <div class="result-stat">
+            <div class="rs-value" id="rsAccuracy">0%</div>
+            <div class="rs-label">🎯 Accuracy</div>
+          </div>
+        </div>
+
+        <div class="result-rank-card" id="resultRankCard">
+          <span>🌍 Global Rank</span>
+          <span class="rank-val" id="resultRank">#—</span>
+        </div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary btn-lg" id="playAgainBtn">🔄 Play Again</button>
+          <a href="leaderboard.html" class="btn btn-secondary btn-lg" id="viewLbBtn">🏆 Leaderboard</a>
+          <a href="stats.html" class="btn btn-secondary" id="viewStatsBtn">📊 My Stats</a>
+        </div>
+
+        <!-- Confetti Canvas -->
+        <canvas id="confetti-canvas" style="position:fixed;inset:0;pointer-events:none;z-index:999;width:100%;height:100%;"></canvas>
+      </div>
+    </div>
+
+  </main>
+
+  <div class="toast-container" id="toastContainer"></div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/game.js"></script>
+</body>
+</html>

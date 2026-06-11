@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Business Boss — MathBlast</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/edu-games.css" />
+  <style>
+    .biz-scenario { font-family: var(--font-game); font-size: 2rem; color: #fff; margin-bottom: 2rem; text-align: center; max-width: 800px; line-height: 1.4; }
+    .biz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem; width: 100%; max-width: 600px; }
+    .biz-btn { font-family: var(--font-game); font-size: 2rem; padding: 1.5rem; border-radius: var(--radius-lg); background: rgba(255,255,255,0.05); border: 2px solid var(--border); color: var(--cyan); cursor: pointer; transition: 0.3s; font-weight: bold; }
+    .biz-btn:hover { background: rgba(0,212,255,0.1); transform: scale(1.05); }
+    .biz-btn.correct { background: var(--green); border-color: var(--green); color: #000; box-shadow: 0 0 20px var(--green); }
+    .biz-btn.wrong { background: var(--pink); border-color: var(--pink); color: #000; animation: shake 0.5s; }
+    
+    .coin-container { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 10; }
+    .coin { position: absolute; font-size: 3rem; animation: fall 1.5s cubic-bezier(.25,.46,.45,.94) forwards; }
+    
+    @keyframes fall {
+      0% { transform: translateY(-100px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(800px) rotate(720deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">⚡</div>Math<span class="logo-blast">Blast</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="games.html">← Back to Arcade</a></li>
+    </ul>
+  </nav>
+
+  <div class="edu-page">
+    
+    <div class="edu-hud hidden" id="gameHud">
+      <div class="edu-hud-item">
+        <span class="edu-hud-label">Bank Balance</span>
+        <span class="edu-hud-val green" id="hudBank">₹1,000</span>
+      </div>
+      <div class="edu-hud-item text-center">
+        <span class="edu-hud-label">Month</span>
+        <span class="edu-hud-val purple" id="hudMonth">1/12</span>
+      </div>
+      <div class="edu-hud-item text-right">
+        <span class="edu-hud-label">Reputation</span>
+        <span class="edu-hud-val" id="hudRep">⭐⭐⭐</span>
+      </div>
+    </div>
+
+    <div class="edu-container hidden" id="gameContainer">
+      <div class="coin-container" id="coinContainer"></div>
+      <div class="biz-scenario" id="scenarioText">You bought a laptop for ₹500. You want a 20% profit. What should you sell it for?</div>
+      <div class="biz-options" id="optionsContainer">
+        <button class="biz-btn">₹520</button>
+        <button class="biz-btn">₹600</button>
+        <button class="biz-btn">₹580</button>
+        <button class="biz-btn">₹700</button>
+      </div>
+    </div>
+
+    <!-- Start Screen -->
+    <div class="edu-overlay" id="startScreen">
+      <div class="eo-icon">💼</div>
+      <h1 class="eo-title">Business Boss</h1>
+      <p class="eo-desc">Run your own tech store for a year (12 months). Calculate discounts, percentages, and profit margins correctly to maximize your bank balance!</p>
+      
+      <div style="margin-bottom: 2rem;">
+        <label style="color:var(--text-muted); font-family:var(--font-game); font-size: 0.9rem; letter-spacing: 2px;">SELECT DIFFICULTY</label>
+        <div style="display:flex; gap:1rem; justify-content:center; margin-top:0.8rem;">
+          <button class="btn btn-secondary diff-btn" onclick="setDiff('easy', this)">Easy (Profit)</button>
+          <button class="btn btn-primary diff-btn" onclick="setDiff('medium', this)">Medium (Discount)</button>
+          <button class="btn btn-secondary diff-btn" onclick="setDiff('hard', this)">Hard (Tax & Loss)</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-lg" onclick="startGame()">Open Store</button>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="edu-overlay hidden" id="resultScreen">
+      <div class="eo-icon">📈</div>
+      <h1 class="eo-title">Year Complete!</h1>
+      <div class="rs-stats">
+        <div class="rs-stat-box">
+          <div class="edu-hud-val green" id="rsBank">₹0</div>
+          <div class="edu-hud-label">Final Bank Balance</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startGame()">Start New Year</button>
+      <a href="games.html" class="btn btn-secondary mt-2">Exit</a>
+    </div>
+
+  </div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/business.js"></script>
+</body>
+</html>

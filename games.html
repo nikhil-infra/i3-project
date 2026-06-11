@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Games Hub — MathBlast</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/games.css" />
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>⚡</text></svg>" />
+</head>
+<body>
+  <canvas id="particles-canvas"></canvas>
+
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">⚡</div>Math<span class="logo-blast">Blast</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="games.html" class="active">Games</a></li>
+      <li><a href="game.html">Math Quiz</a></li>
+      <li><a href="leaderboard.html">Leaderboard</a></li>
+      <li><a href="stats.html">My Stats</a></li>
+      <li><a href="architecture.html">AWS Cloud</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="auth.html" class="btn btn-secondary btn-sm" id="loginBtn">Login</a>
+      <a href="auth.html?tab=register" class="btn btn-primary btn-sm" id="registerBtn">Register</a>
+    </div>
+    <div class="hamburger" id="hamburger" onclick="toggleMenu()"><span></span><span></span><span></span></div>
+  </nav>
+
+  <main class="page-content games-hub">
+    <div class="section">
+
+      <div class="section-header">
+        <div class="section-badge">🎮 Core Suite</div>
+        <h1 class="section-title">The MathBlast Core 4</h1>
+        <p class="section-subtitle">Deeply featured, multi-level games designed to challenge your skills in Computer Science, Business, Angles, and Time.</p>
+      </div>
+
+      <div class="games-grid" style="margin-top:2.5rem;">
+
+        <!-- 1. Binary Bulbs -->
+        <a href="binary.html" class="game-hub-card" data-theme="cyan">
+          <div class="ghc-icon-row">
+            <div class="ghc-icon">💡</div>
+            <span class="ghc-badge popular">CS MATH</span>
+          </div>
+          <h3 class="ghc-title">Binary Bulbs</h3>
+          <p class="ghc-desc">Learn how computers count! Toggle lightbulbs to make their binary values equal the target. 3 Difficulty Levels.</p>
+          <div class="ghc-tags"><span class="ghc-tag">Binary</span><span class="ghc-tag">Logic</span></div>
+          <div class="ghc-play-row"><div class="ghc-play-btn">Play Now →</div></div>
+        </a>
+
+        <!-- 2. Business Boss -->
+        <a href="business.html" class="game-hub-card" data-theme="green">
+          <div class="ghc-icon-row">
+            <div class="ghc-icon">💼</div>
+            <span class="ghc-badge intense">REAL WORLD</span>
+          </div>
+          <h3 class="ghc-title">Business Boss</h3>
+          <p class="ghc-desc">Run a store in Indian Rupees (₹). Calculate profit margins, complex discounts, and taxes. 3 Difficulty Levels.</p>
+          <div class="ghc-tags"><span class="ghc-tag">Percentages</span><span class="ghc-tag">Money</span></div>
+          <div class="ghc-play-row"><div class="ghc-play-btn">Play Now →</div></div>
+        </a>
+
+        <!-- 3. Angle Artillery -->
+        <a href="angle.html" class="game-hub-card" data-theme="orange">
+          <div class="ghc-icon-row">
+            <div class="ghc-icon">🎯</div>
+            <span class="ghc-badge fun">ANGLES</span>
+          </div>
+          <h3 class="ghc-title">Angle Artillery</h3>
+          <p class="ghc-desc">Enter the exact angle degree to aim your cannon and hit the target. Learn trigonometry visually! 3 Difficulty Levels.</p>
+          <div class="ghc-tags"><span class="ghc-tag">Degrees</span><span class="ghc-tag">Target Practice</span></div>
+          <div class="ghc-play-row"><div class="ghc-play-btn">Play Now →</div></div>
+        </a>
+
+        <!-- 4. Time Hacker -->
+        <a href="time.html" class="game-hub-card" data-theme="purple">
+          <div class="ghc-icon-row">
+            <div class="ghc-icon">⏱️</div>
+            <span class="ghc-badge unique">CLOCK MATH</span>
+          </div>
+          <h3 class="ghc-title">Time Hacker</h3>
+          <p class="ghc-desc">Read analog clocks and calculate tricky durations before the system locks down. 3 Difficulty Levels.</p>
+          <div class="ghc-tags"><span class="ghc-tag">Clocks</span><span class="ghc-tag">Time</span></div>
+          <div class="ghc-play-row"><div class="ghc-play-btn">Play Now →</div></div>
+        </a>
+
+      </div>
+
+    </div>
+  </main>
+
+  <footer class="footer">
+    <p>⚡ <strong>MathBlast</strong> — The Core Educational Suite</p>
+    <p style="margin-top:0.4rem;">100% Serverless Architecture · Powered by AWS Cloud</p>
+  </footer>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/particles.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

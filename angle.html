@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Angle Artillery — MathBlast</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/edu-games.css" />
+  <style>
+    .artillery-field { position: relative; width: 100%; height: 400px; background: rgba(0,0,0,0.3); border: 2px solid var(--border); border-radius: var(--radius-lg); margin-bottom: 2rem; overflow: hidden; }
+    
+    .cannon-base { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: 60px; height: 30px; background: #555; border-radius: 30px 30px 0 0; }
+    .cannon-barrel { position: absolute; bottom: 15px; left: 50%; width: 20px; height: 80px; background: var(--cyan); transform-origin: bottom center; transform: translateX(-50%) rotate(0deg); transition: transform 0.5s cubic-bezier(.25,.46,.45,.94); border-radius: 10px; }
+    
+    .target { position: absolute; width: 40px; height: 40px; background: var(--pink); border-radius: 50%; border: 4px solid #fff; box-shadow: 0 0 15px var(--pink); transform: translate(-50%, -50%); transition: 0.5s; }
+    
+    .cannonball { position: absolute; width: 16px; height: 16px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px #fff; transform: translate(-50%, -50%); display: none; }
+    
+    .control-panel { display: flex; gap: 1rem; align-items: center; justify-content: center; }
+    .angle-input { background: rgba(255,255,255,0.1); border: 2px solid var(--cyan); color: #fff; font-family: var(--font-game); font-size: 2rem; padding: 1rem; border-radius: var(--radius-sm); width: 120px; text-align: center; }
+    .angle-input:focus { outline: none; border-color: var(--green); box-shadow: 0 0 15px var(--green); }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">⚡</div>Math<span class="logo-blast">Blast</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="games.html">← Back to Arcade</a></li>
+    </ul>
+  </nav>
+
+  <div class="edu-page">
+    
+    <div class="edu-hud hidden" id="gameHud">
+      <div class="edu-hud-item">
+        <span class="edu-hud-label">Targets Hit</span>
+        <span class="edu-hud-val green" id="hudScore">0</span>
+      </div>
+      <div class="edu-hud-item text-right">
+        <span class="edu-hud-label">Ammo</span>
+        <span class="edu-hud-val" id="hudAmmo">10</span>
+      </div>
+    </div>
+
+    <div class="edu-container hidden" id="gameContainer">
+      <div class="artillery-field" id="field">
+        <div class="target" id="targetObj" style="top: 20%; left: 80%;"></div>
+        <div class="cannon-barrel" id="barrel"></div>
+        <div class="cannon-base"></div>
+        <div class="cannonball" id="ball"></div>
+      </div>
+      
+      <div class="control-panel">
+        <label style="font-family:var(--font-game); font-size:1.5rem; color:var(--cyan);">Angle (deg):</label>
+        <input type="number" class="angle-input" id="angleInput" value="45" min="0" max="360" />
+        <button class="btn btn-primary btn-lg" onclick="fireCannon()">FIRE! 💥</button>
+      </div>
+    </div>
+
+    <div class="edu-overlay" id="startScreen">
+      <div class="eo-icon">🎯</div>
+      <h1 class="eo-title">Angle Artillery</h1>
+      <p class="eo-desc">Enter the correct angle (0-180 degrees) to aim the cannon and hit the neon target. 0 is Right, 90 is Straight Up, 180 is Left.</p>
+      
+      <div style="margin-bottom: 2rem;">
+        <label style="color:var(--text-muted); font-family:var(--font-game); font-size: 0.9rem; letter-spacing: 2px;">SELECT DIFFICULTY</label>
+        <div style="display:flex; gap:1rem; justify-content:center; margin-top:0.8rem;">
+          <button class="btn btn-secondary diff-btn" onclick="setDiff('easy', this)">Easy (45°, 90°, etc)</button>
+          <button class="btn btn-primary diff-btn" onclick="setDiff('medium', this)">Medium (10° steps)</button>
+          <button class="btn btn-secondary diff-btn" onclick="setDiff('hard', this)">Hard (Random)</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-lg" onclick="startGame()">Load Cannon</button>
+    </div>
+
+    <div class="edu-overlay hidden" id="resultScreen">
+      <div class="eo-icon">🏆</div>
+      <h1 class="eo-title">Out of Ammo!</h1>
+      <div class="rs-stats">
+        <div class="rs-stat-box">
+          <div class="edu-hud-val green" id="rsScore">0</div>
+          <div class="edu-hud-label">Targets Hit</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startGame()">Reload & Play</button>
+      <a href="games.html" class="btn btn-secondary mt-2">Exit</a>
+    </div>
+
+  </div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/angle.js"></script>
+</body>
+</html>

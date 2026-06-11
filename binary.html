@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Binary Bulbs — MathBlast</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <link rel="stylesheet" href="css/edu-games.css" />
+  <style>
+    .bulb-container { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; margin-top: 3rem; }
+    .bulb-box { display: flex; flex-direction: column; align-items: center; gap: 0.5rem; cursor: pointer; }
+    .bulb { width: 60px; height: 80px; border-radius: 50% 50% 20% 20%; background: #333; border: 2px solid #555; transition: 0.3s; position: relative; }
+    .bulb.on { background: #ffd700; border-color: #fff; box-shadow: 0 0 20px #ffd700, 0 0 40px #ffd700; }
+    .bulb::after { content: ''; position: absolute; bottom: -10px; left: 15px; width: 30px; height: 10px; background: #666; border-radius: 0 0 5px 5px; }
+    .bulb-val { font-family: var(--font-game); font-size: 1.5rem; color: var(--text-muted); transition: 0.3s; }
+    .bulb-box.on .bulb-val { color: #fff; text-shadow: 0 0 10px #fff; }
+    .bulb-bit { font-size: 1.5rem; font-weight: bold; color: #555; margin-top: 10px; }
+    .bulb-box.on .bulb-bit { color: #10d98b; }
+  </style>
+</head>
+<body>
+  <nav class="navbar" id="navbar">
+    <a href="index.html" class="nav-logo"><div class="logo-icon">⚡</div>Math<span class="logo-blast">Blast</span></a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="games.html">← Back to Arcade</a></li>
+    </ul>
+  </nav>
+
+  <div class="edu-page">
+    
+    <div class="edu-hud hidden" id="gameHud">
+      <div class="edu-hud-item">
+        <span class="edu-hud-label">Target Number</span>
+        <span class="edu-hud-val pink" id="targetNum">0</span>
+      </div>
+      <div class="edu-hud-item text-center">
+        <span class="edu-hud-label">Current Value</span>
+        <span class="edu-hud-val cyan" id="currentNum">0</span>
+      </div>
+      <div class="edu-hud-item text-right">
+        <span class="edu-hud-label">Solved</span>
+        <span class="edu-hud-val" id="scoreNum">0</span>
+      </div>
+    </div>
+
+    <div class="edu-container hidden" id="gameContainer">
+      <h2 style="font-family:var(--font-game); font-size: 2rem;">Turn the bulbs on to equal <span id="bigTarget" style="color:var(--pink)"></span></h2>
+      <div class="bulb-container" id="bulbsContainer"></div>
+    </div>
+
+    <!-- Start Screen -->
+    <div class="edu-overlay" id="startScreen">
+      <div class="eo-icon">💡</div>
+      <h1 class="eo-title">Binary Bulbs</h1>
+      <p class="eo-desc">Computers count using only 1s and 0s. Click the lightbulbs to turn them on (1) and add their values together to reach the target number!</p>
+      
+      <div style="margin-bottom: 2rem;">
+        <label style="color:var(--text-muted); font-family:var(--font-game); font-size: 0.9rem; letter-spacing: 2px;">SELECT DIFFICULTY</label>
+        <div style="display:flex; gap:1rem; justify-content:center; margin-top:0.8rem;">
+          <button class="btn btn-secondary diff-btn" onclick="setDiff('easy', this)">Easy (4 Bulbs)</button>
+          <button class="btn btn-secondary diff-btn" onclick="setDiff('medium', this)">Medium (6 Bulbs)</button>
+          <button class="btn btn-primary diff-btn" onclick="setDiff('hard', this)">Hard (8 Bulbs)</button>
+        </div>
+      </div>
+
+      <button class="btn btn-primary btn-lg" onclick="startGame()">Start Learning</button>
+    </div>
+
+    <!-- Result Screen -->
+    <div class="edu-overlay hidden" id="resultScreen">
+      <div class="eo-icon">🏆</div>
+      <h1 class="eo-title">Level Complete!</h1>
+      <div class="rs-stats">
+        <div class="rs-stat-box">
+          <div class="edu-hud-val cyan" id="rsScore">0</div>
+          <div class="edu-hud-label">Total Solved</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="startGame()">Play Again</button>
+      <a href="games.html" class="btn btn-secondary mt-2">Exit</a>
+    </div>
+
+  </div>
+
+  <script src="js/aws-config.js"></script>
+  <script src="js/sound.js"></script>
+  <script src="js/main.js"></script>
+  <script src="js/binary.js"></script>
+</body>
+</html>
